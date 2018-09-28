@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour {
     public float speed;
     public Text countText;
     public Text specialcountText;
+    public Text totalscoreText;
     public Text winText;
 
 
@@ -15,15 +16,18 @@ public class PlayerController : MonoBehaviour {
     private Rigidbody2D rb2d;
     private int count;
     private int specialcount;
+    private int totalscore;
 
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D> ();
         count = 0;
         specialcount = 0;
+        totalscore = 0;
         winText.text = "";
         SetCountText ();
         SetSpecialCountText();
+        SetTotalScoreText();
     }
 
     void FixedUpdate()
@@ -42,6 +46,7 @@ public class PlayerController : MonoBehaviour {
             other.gameObject.SetActive(false);
             count = count + 1;
             SetCountText();
+            SetTotalScoreText();
         }
 
         if (other.gameObject.CompareTag("SpecStar")) 
@@ -49,6 +54,7 @@ public class PlayerController : MonoBehaviour {
             other.gameObject.SetActive(false);
             specialcount = specialcount + 5;
             SetSpecialCountText();
+            SetTotalScoreText();
         }
     }
         
@@ -61,5 +67,15 @@ public class PlayerController : MonoBehaviour {
     void SetSpecialCountText()
     {
         specialcountText.text = "Special Star Count: " + specialcount.ToString ();
+    }
+
+    void SetTotalScoreText()
+    {
+        totalscoreText.text = "Total Score: " + (count + specialcount);
+
+        if (count >= 14 && specialcount >= 30)
+        {
+            winText.text = "You Win!!";
+        }
     }
 }
